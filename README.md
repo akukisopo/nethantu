@@ -1,14 +1,14 @@
 <p align=center>
-<a href="https://github.com/akukisopo/netHantu/blob/master/README.MD"><img src="https://github.com/akukisopo/netHantu/raw/master/img/netHantu.png"/>
+<a href="https://github.com/akukisopo/nethantu/blob/master/README.MD"><img src="https://github.com/akukisopo/nethantu/raw/master/img/netHantu.png"/>
 </a>
-<a href="https://github.com/akukisopo/netHantu">
+<a href="https://github.com/akukisopo/nethantu">
     <img src="https://img.shields.io/badge/python-3.3%2C%203.4%2C%203.5%2C%203.6-brightgreen.svg" align=center/>
 </a>
-<a href="https://github.com/akukisopo/netHantu/blob/master/LICENSE">
+<a href="https://github.com/akukisopo/nethantu/blob/master/LICENSE">
     <img src="https://img.shields.io/badge/license-MIT-blue.svg" align=center/>
 </a>
-<a href="https://github.com/akukisopo/netHantu">
-    <img src="https://img.shields.io/github/stars/akukisopo/netHantu.svg" align=center/>
+<a href="https://github.com/akukisopo/nethantu">
+    <img src="https://img.shields.io/github/stars/akukisopo/nethantu.svg" align=center/>
 </a>
 </p>
 
@@ -16,13 +16,13 @@
 
 <h1 align=center>features:</h1>
 <p align=center>
-<a href="https://github.com/akukisopo/netHantu/blob/master/README.MD"><img src="https://raw.githubusercontent.com/akukisopo/netHantu/master/img/features.png"/></a>
+<a href="https://github.com/akukisopo/nethantu/blob/master/README.MD"><img src="https://raw.githubusercontent.com/akukisopo/nethantu/master/img/features.png"/></a>
 </p>
 
 <br><br>
 
 <p align=center>
-<a href="https://github.com/akukisopo/netHantu/blob/master/DEMOS.MD"><img src="img/demos-button.png" align=center width=40%/></a>
+<a href="https://github.com/akukisopo/nethantu/blob/master/DEMOS.MD"><img src="img/demos-button.png" align=center width=40%/></a>
 <br><br><br>
 </p>
 
@@ -39,7 +39,7 @@ Boot up the Pi, get an SSH sell or connect a monitor and a keyboard and enter th
 ```
 $ sudo apt install git
 $ sudo apt update && sudo apt install python3 python3-pip
-$ git clone https://github.com/akukisopo/netHantu
+$ git clone https://github.com/akukisopo/nethantu
 $ cd netHantu
 $ chmod 777 setup.py
 $ sudo ./setup.py
@@ -108,7 +108,7 @@ your API key.
 ```
 
 <p align=center>
-<img src="https://github.com/akukisopo/netHantu/raw/master/img/screenshot-telegram-1.png"/>
+<img src="https://github.com/akukisopo/nethantu/raw/master/img/screenshot-telegram-1.png"/>
 </p>
 
 <h4>step 3/4 - setup.py</h4>
