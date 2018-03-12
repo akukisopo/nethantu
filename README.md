@@ -192,5 +192,5 @@ You will get a message every time when a new device connects/leaves the network.
 <h1 align=center>legal:</h1>
 
 <p align=center>
-Copyright (c) 2017 by Ghostbusters Team. Some rights reserved.<br><br>
+Salam dari by Ghostbusters Team.<br><br>
 </p>
