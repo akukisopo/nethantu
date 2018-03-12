@@ -45,6 +45,33 @@ $ cd netHantu
 $ sudo ./setup.py
 ```
 
+
+If you want to use Wifi connection it must be configured on wpa_wpa_supplicant.
+
+```
+sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
+```
+
+configuration contents. example:
+
+```
+country=US                                                                             
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev          
+update_config=1                           
+network={                        
+        ssid="Home-Wifi"                         
+        psk="AkuT4kTahu"                             
+        key_mgmt=WPA-PSK       
+```
+
+after saving the configuration, run this command:
+
+```
+sudo systemctl restart dhcpcd.service
+sudo systemctl restart networking.service
+sudo reboot
+```
+
 Please **read** the questions/messages while running the setup script!
 
 <h4>step 1/4 - setup.py</h4>
