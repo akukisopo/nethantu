@@ -201,6 +201,5 @@ You will get a message every time when a new device connects/leaves the network.
 <h1 align=center>legal:</h1>
 
 <p align=center>
-Copyright (c) 2018 by David Schütz. Some rights reserved.<br><br>
-netHantu is under the terms of the MIT License, following all clarifications stated in the license file. You can also go ahead and email me at xdavid{at}protonmail{dot}com.
+Copyright (c) 2017 by Ghostbusters Team. Some rights reserved.<br><br>
 </p>
