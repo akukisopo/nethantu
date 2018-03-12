@@ -51,7 +51,7 @@ if u get error "PIP" do it :
 $ sudo python3 -m pip install --upgrade pip setuptools wheel
 ```
 
-If you want to use Wifi connection it must be configured on wpa_wpa_supplicant.
+If you want to use Wifi connection it must be configured on wpa_supplicant.
 
 ```
 sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
