@@ -12,7 +12,7 @@
 </a>
 </p>
 
-<h3 align=center><i>A LAN dropbox chatbot controllable via Telegram</i></h3>
+<h3 align=center><i>The Tactical Toolkit for network control uses Telegram chat</i></h3>
 
 <h1 align=center>features:</h1>
 <p align=center>
@@ -30,9 +30,9 @@
 
 <h3 align=center>warning:</h3>
 
-<p align=center>netHantu is designed for <b>Raspberry Pis</b> (<b>Raspbian</b>/<b>Kali for RPi</b>). Running it on other/desktop distros could cause issues and may not work as excepted.</p>
+<p align=center>netHantu is designed for singnle board like <b>Raspberry Pis</b> (<b>Raspbian</b>/<b>Kali for RPi</b>). Running it on other/desktop distros could cause issues and may not work as excepted.</p>
 
-You will need a **Raspberry Pi** with **fresh Raspbian/Kali** on the SD card, because you don't want anything else running in the background.
+You will need a single board like  **Raspberry Pi** with **fresh Raspbian/Kali** on the SD card, because you don't want anything else running in the background.
 
 Boot up the Pi, get an SSH sell or connect a monitor and a keyboard and enter these commands:
 
@@ -83,9 +83,9 @@ Please **read** the questions/messages while running the setup script!
 
 ```
 [+] Please enter the name of the network interface connected/will
-be connected to the target LAN. Default wired interface is 'eth0',
-and the default wireless interface is 'wlan0' on most systems, but
-you can check it in a different terminal with the 'ifconfig' command.
+be connected to the target LAN. Default wired interface is <b>'eth0'</b>,
+and the default wireless interface is <b>'wlan0'</b> on most systems, but
+you can check it in a different terminal with the <b>'ifconfig'</b> command.
 ```
 
 <h4>step 2/4 - setup.py</h4>
