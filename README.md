@@ -75,8 +75,6 @@ your API key.
 
 <p align=center>
 <img src="https://github.com/akukisopo/netHantu/raw/master/img/screenshot-telegram-1.png"/>
-<br><br>
-<img src="https://github.com/akukisopo/netHantu/raw/master/img/screenshot-telegram-2.png"/>
 </p>
 
 <h4>step 3/4 - setup.py</h4>
@@ -90,10 +88,6 @@ bot's @username (what you sent to @BotFather) to find it.
 [+] Verification code to send: ******
 ```
 
-<p align=center>
-<img src="https://github.com/akukisopo/netHantu/raw/master/img/screenshot-telegram-3.png"/>
-</p>
-
 <h4>step 4/4 - setup.py</h4>
 
 ```
@@ -105,9 +99,6 @@ by adding a new cron '@reboot' entry)
 
 <h3 align=center>If you are ready with the setup just reboot the Pi and netHantu will start right up!</3>
 <br><br>
-<p align=center>
-<img src="https://github.com/akukisopo/netHantu/raw/master/img/screenshot-telegram-4.png"/>
-</p>
 
 <h1 align=center>usage:</h1>
 
