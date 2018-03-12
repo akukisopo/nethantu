@@ -1,5 +1,5 @@
 <p align=center>
-<a href="https://github.com/akukisopo/nethantu/blob/master/README.MD"><img src="https://github.com/akukisopo/nethantu/raw/master/img/netHantu.png"/>
+<a href="https://github.com/akukisopo/nethantu/blob/master/README.md"><img src="https://github.com/akukisopo/nethantu/raw/master/img/netHantu.png"/>
 </a>
 <a href="https://github.com/akukisopo/nethantu">
     <img src="https://img.shields.io/badge/python-3.3%2C%203.4%2C%203.5%2C%203.6-brightgreen.svg" align=center/>
@@ -16,7 +16,7 @@
 
 <h1 align=center>features:</h1>
 <p align=center>
-<a href="https://github.com/akukisopo/nethantu/blob/master/README.MD"><img src="https://raw.githubusercontent.com/akukisopo/nethantu/master/img/features.png"/></a>
+<a href="https://github.com/akukisopo/nethantu/blob/master/README.md"><img src="https://raw.githubusercontent.com/akukisopo/nethantu/master/img/features.png"/></a>
 </p>
 
 <br><br>
