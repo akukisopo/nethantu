@@ -39,12 +39,17 @@ Boot up the Pi, get an SSH sell or connect a monitor and a keyboard and enter th
 ```
 $ sudo apt install git
 $ sudo apt update && sudo apt install python3 python3-pip
-$ sudo python3 -m pip install --upgrade pip setuptools wheel
 $ git clone https://github.com/akukisopo/netHantu
 $ cd netHantu
+$ chmod 777 setup.py
 $ sudo ./setup.py
 ```
 
+if u get error "PIP" do it :
+
+```
+$ sudo python3 -m pip install --upgrade pip setuptools wheel
+```
 
 If you want to use Wifi connection it must be configured on wpa_wpa_supplicant.
 
