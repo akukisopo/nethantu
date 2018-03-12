@@ -30,7 +30,7 @@
 
 <h3 align=center>warning:</h3>
 
-<p align=center>netHantu is designed for singnle board like <b>Raspberry Pis</b> (<b>Raspbian</b>/<b>Kali for RPi</b>). Running it on other/desktop distros could cause issues and may not work as excepted.</p>
+<p align=center>netHantu is designed for single board like <b>Raspberry Pis</b> (<b>Raspbian</b>/<b>Kali for RPi</b>). Running it on other/desktop distros could cause issues and may not work as excepted.</p>
 
 You will need a single board like  **Raspberry Pi** with **fresh Raspbian/Kali** on the SD card, because you don't want anything else running in the background.
 
