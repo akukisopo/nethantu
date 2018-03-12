@@ -99,7 +99,7 @@ This can be anything you want.
 
 Lastly, @BotFather will ask you for a username for your bot. You have
 to choose a unique username here which ends with 'bot'. For
-example: xdavidbot. Make note of this username, since later
+example: hantubot. Make note of this username, since later
 you will have to search for this to find your bot, which netHantu
 will be running on.
 
