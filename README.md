@@ -40,7 +40,7 @@ Boot up the Pi, get an SSH sell or connect a monitor and a keyboard and enter th
 $ sudo apt install git
 $ sudo apt update && sudo apt install python3 python3-pip
 $ git clone https://github.com/akukisopo/nethantu
-$ cd netHantu
+$ cd nethantu
 $ chmod 777 setup.py
 $ sudo ./setup.py
 ```
