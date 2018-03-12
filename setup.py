@@ -74,7 +74,7 @@ if __name__ == '__main__':
             "will ask you to choose a name for your bot. This can be "+\
             "anything you want.\n\nLastly, @BotFather will ask you for a "+\
             "username for your bot. You have to choose a unique username "+\
-            "here which ends with 'bot'. For example: xdavidbot. Make note "+\
+            "here which ends with 'bot'. For example: hantubot. Make note "+\
             "of this username, since later you will have to search for this "+\
             "to find your bot, which netHantu will be running on.\n\nAfter "+\
             "you send your username of choise to @BotFather, you will "+\
