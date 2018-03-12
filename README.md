@@ -37,7 +37,9 @@ You will need a **Raspberry Pi** with **fresh Raspbian/Kali** on the SD card, be
 Boot up the Pi, get an SSH sell or connect a monitor and a keyboard and enter these commands:
 
 ```
+$ sudo apt install git
 $ sudo apt update && sudo apt install python3 python3-pip
+$ sudo python3 -m pip install --upgrade pip setuptools wheel
 $ git clone https://github.com/akukisopo/netHantu
 $ cd netHantu
 $ sudo ./setup.py
