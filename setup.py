@@ -6,7 +6,7 @@
 import os, time, sys
 
 if os.geteuid() != 0:
-    print("[!] Please run the GhostSploit setup as root!")
+    print("[!] Please run the ghostSploit setup as root!")
     exit()
 
 BLUE = '\033[1m' + '\033[32m'
@@ -76,7 +76,7 @@ if __name__ == '__main__':
             "username for your bot. You have to choose a unique username "+\
             "here which ends with 'bot'. For example: hantubot. Make note "+\
             "of this username, since later you will have to search for this "+\
-            "to find your bot, which GhostSploit will be running on.\n\nAfter "+\
+            "to find your bot, which ghostSploit will be running on.\n\nAfter "+\
             "you send your username of choise to @BotFather, you will "+\
             "recieve your API key. Please enter it here:\n")
     telegram_api = input("[?] Telegram API key: ")
@@ -88,7 +88,7 @@ if __name__ == '__main__':
     import json
 
     print("\n\n[I] Step 3 / 4:\n")
-    print("[+] Now for GhostSploit to only allow access to you, you need to "+\
+    print("[+] Now for ghostSploit to only allow access to you, you need to "+\
             "verify yourself.\n\nSend the verification code below TO THE BOT"+\
             " you just created. Just search for your bot's @username "+\
             "(what you sent to @BotFather) to find it.")
@@ -136,15 +136,15 @@ if __name__ == '__main__':
     os.system("clear")
     print("[+] Config file generated successfully.")
     print("\n\n[I] Step 4 / 4:\n")
-    print("[+] Do you want GhostSploit to start on boot? This option is " +\
+    print("[+] Do you want ghostSploit to start on boot? This option is " +\
             "necessary if you are using this device as a dropbox, because " +\
             "when you are going to drop this device into a network, you " +\
-            "will not have the chanse to start GhostSploit remotely! " +\
+            "will not have the chanse to start ghostSploit remotely! " +\
             "(autostart works by adding a new cron '@reboot' entry)\n")
-    reboot = input("[?] Start GhostSploit on boot (Y/n): ")
+    reboot = input("[?] Start ghostSploit on boot (Y/n): ")
     if reboot.lower() == "y" or reboot.lower() == "":
         print("[+] Setting up autostart... (ignore 'no contrab for [user]' message)")
-        os.system("crontab -l | { cat; echo '@reboot (. ~/.profile; /usr/bin/screen -dmS GhostSploit python3 " + os.path.dirname(os.path.realpath(__file__)) + "/GhostSploit.py)'; } | crontab -")
+        os.system("crontab -l | { cat; echo '@reboot (. ~/.profile; /usr/bin/screen -dmS ghostSploit python3 " + os.path.dirname(os.path.realpath(__file__)) + "/ghostSploit.py)'; } | crontab -")
     else:
         print("[+] Skipping autostart setup...")
 

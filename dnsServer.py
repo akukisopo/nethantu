@@ -22,26 +22,26 @@ def getIP(domain_name, client_address):
         ip = "0.0.0.0"
 
     script_path = os.path.dirname(os.path.realpath(__file__)) + "/"
-    DBconn = sqlite3.connect(script_path + "GhostSploit.db")
+    DBconn = sqlite3.connect(script_path + "ghostSploit.db")
     DBcursor = DBconn.cursor()
-    DBcursor.execute("CREATE TABLE IF NOT EXISTS GhostSploit_mitm (id integer primary key autoincrement, source TEXT,host TEXT, url TEXT, method TEXT, data TEXT, dns TEXT)")
-    DBcursor.execute("CREATE TABLE IF NOT EXISTS GhostSploit_dns (attackid TEXT, target TEXT, domain TEXT, fakeip TEXT)")
-    DBcursor.execute("CREATE TABLE IF NOT EXISTS GhostSploit_attacks (id integer primary key autoincrement, attackid TEXT, attack_type TEXT, target TEXT)")
+    DBcursor.execute("CREATE TABLE IF NOT EXISTS ghostSploit_mitm (id integer primary key autoincrement, source TEXT,host TEXT, url TEXT, method TEXT, data TEXT, dns TEXT)")
+    DBcursor.execute("CREATE TABLE IF NOT EXISTS ghostSploit_dns (attackid TEXT, target TEXT, domain TEXT, fakeip TEXT)")
+    DBcursor.execute("CREATE TABLE IF NOT EXISTS ghostSploit_attacks (id integer primary key autoincrement, attackid TEXT, attack_type TEXT, target TEXT)")
     DBconn.commit()
     DBconn.close()
 
-    DBconn = sqlite3.connect(script_path + "GhostSploit.db")
+    DBconn = sqlite3.connect(script_path + "ghostSploit.db")
     DBcursor = DBconn.cursor()
-    DBcursor.execute("SELECT domain, fakeip FROM GhostSploit_dns WHERE target = ?", [str(client_address[0])])
+    DBcursor.execute("SELECT domain, fakeip FROM ghostSploit_dns WHERE target = ?", [str(client_address[0])])
     data = DBcursor.fetchall()
     if not data == []:
         if domain_name == data[0][0]:
             ip = data[0][1]
 
-    DBcursor.execute("SELECT attackid FROM GhostSploit_attacks WHERE target=? AND attack_type='mitm' ORDER BY id DESC LIMIT 1", [str(client_address[0])])
+    DBcursor.execute("SELECT attackid FROM ghostSploit_attacks WHERE target=? AND attack_type='mitm' ORDER BY id DESC LIMIT 1", [str(client_address[0])])
     data = DBcursor.fetchone()
     if not data == None:
-        DBcursor.execute("INSERT INTO GhostSploit_mitm(source, host, url, method, data, dns) VALUES (?, ?, ?, ?, ?, ?)", [str(client_address[0]), domain_name, "false", False, ip, "1"])
+        DBcursor.execute("INSERT INTO ghostSploit_mitm(source, host, url, method, data, dns) VALUES (?, ?, ?, ?, ?, ?)", [str(client_address[0]), domain_name, "false", False, ip, "1"])
         DBconn.commit()
     DBconn.close()
     print("[+] Resolving " + domain_name + " to " + ip + " from " + str(client_address[0]))

